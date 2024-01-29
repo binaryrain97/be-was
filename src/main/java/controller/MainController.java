@@ -1,9 +1,7 @@
 package controller;
 
-import db.SessionStorage;
 import model.Request;
 import model.Response;
-import model.Session;
 import model.StatusCode;
 
 public class MainController {

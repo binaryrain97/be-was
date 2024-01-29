@@ -17,6 +17,8 @@ public class FirstController {
 
         if(request.getPath().startsWith("/user"))
             UserController.route(request, response, verifiedSessionId);
+        else if(request.getPath().startsWith("/qna"))
+            BoardController.route(request, response, verifiedSessionId);
         else
             MainController.route(request, response, verifiedSessionId);
 
