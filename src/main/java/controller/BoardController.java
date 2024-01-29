@@ -7,10 +7,10 @@ import model.StatusCode;
 public class BoardController {
     public static void route(Request request, Response response, String verifiedSessionId) {
 
-        if(request.getPath().equals("/qna/write")) {
+        if(request.getPath().equals("/qna/form")) {
             if(verifiedSessionId != null) {
                 response.setStatusCode(StatusCode.FOUND);
-                response.addHeader("Location", "/qna/write.html");
+                response.addHeader("Location", "/qna/form.html");
             }
             else {
                 response.setStatusCode(StatusCode.FOUND);
@@ -19,5 +19,10 @@ public class BoardController {
             return;
         }
 
+        if(request.getPath().equals("/qna/write")) {
+
+        }
+
+        LastController.route(request, response, verifiedSessionId);
     }
 }

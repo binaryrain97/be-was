@@ -48,7 +48,10 @@ public class LastController {
                         "<li><a href=\"/user/form.html\" role=\"button\">회원가입</a></li>");
             }
             if(path.equals("/user/list.html")) {
-                replace.put("{{list}}", makeUserList());
+                replace.put("{{userList}}", makeUserList());
+            }
+            if(path.equals("/index.html")) {
+//                replace.put("{{boardList}}", makeBoardList());
             }
 
             String html = Util.readFile(stringBuilder, filePath, replace);
@@ -95,4 +98,21 @@ public class LastController {
         }
         return sb.toString();
     }
+//    private static String makeBoardList() {
+//        Collection<User> collection = Database.findAll();
+//        StringBuilder sb = new StringBuilder();
+//        int idx = 0;
+//        for(User user : collection) {
+//            sb.append("<tr><th scope=\"row\">");
+//            sb.append(String.valueOf(++idx));
+//            sb.append("</th> <td>");
+//            sb.append(user.getUserId());
+//            sb.append("</td> <td>");
+//            sb.append(user.getName());
+//            sb.append("</td> <td>");
+//            sb.append(user.getEmail());
+//            sb.append("</td><td><a href=\"#\" class=\"btn btn-success\" role=\"button\">수정</a></td></tr>");
+//        }
+//        return sb.toString();
+//    }
 }
