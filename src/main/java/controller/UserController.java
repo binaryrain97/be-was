@@ -1,10 +1,8 @@
 package controller;
 
-import db.Database;
 import db.SessionStorage;
 import model.*;
 import service.UserService;
-import java.util.UUID;
 
 public class UserController {
 

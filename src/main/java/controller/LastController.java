@@ -1,18 +1,16 @@
 package controller;
 
-import db.Database;
+import db.BoardDatabase;
+import db.UserDatabase;
 import db.SessionStorage;
-import model.Request;
-import model.Response;
-import model.StatusCode;
-import model.User;
+import model.*;
 import utils.Util;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
+import java.lang.reflect.Member;
+import java.util.*;
 
 public class LastController {
 
@@ -51,7 +49,7 @@ public class LastController {
                 replace.put("{{userList}}", makeUserList());
             }
             if(path.equals("/index.html")) {
-//                replace.put("{{boardList}}", makeBoardList());
+                replace.put("{{boardList}}", makeBoardList());
             }
 
             String html = Util.readFile(stringBuilder, filePath, replace);
@@ -82,7 +80,7 @@ public class LastController {
     }
 
     private static String makeUserList() {
-        Collection<User> collection = Database.findAll();
+        Collection<User> collection = UserDatabase.findAll();
         StringBuilder sb = new StringBuilder();
         int idx = 0;
         for(User user : collection) {
@@ -98,21 +96,29 @@ public class LastController {
         }
         return sb.toString();
     }
-//    private static String makeBoardList() {
-//        Collection<User> collection = Database.findAll();
-//        StringBuilder sb = new StringBuilder();
-//        int idx = 0;
-//        for(User user : collection) {
-//            sb.append("<tr><th scope=\"row\">");
-//            sb.append(String.valueOf(++idx));
-//            sb.append("</th> <td>");
-//            sb.append(user.getUserId());
-//            sb.append("</td> <td>");
-//            sb.append(user.getName());
-//            sb.append("</td> <td>");
-//            sb.append(user.getEmail());
-//            sb.append("</td><td><a href=\"#\" class=\"btn btn-success\" role=\"button\">수정</a></td></tr>");
-//        }
-//        return sb.toString();
-//    }
+    private static String makeBoardList() {
+        Collection<Board> collection = BoardDatabase.findAll();
+        List<Board> boardList = new ArrayList<>(collection);
+        Collections.sort(boardList, (o1, o2) -> {
+            return Math.toIntExact(o2.getIndex() - o1.getIndex());
+        });
+        StringBuilder sb = new StringBuilder();
+        int idx = 0;
+        for(Board board : boardList) {
+            sb.append("<li><div class=\"wrap\"><div class=\"main\"><strong class=\"subject\"><a href=\"/qna/show.html?index=");
+            sb.append(String.valueOf(board.getIndex()));
+            sb.append("\">");
+            sb.append(board.getTitle());
+            sb.append("</a></strong><div class=\"auth-info\"><i class=\"icon-add-comment\"></i>");
+            sb.append("<span class=\"time\">");
+            sb.append(Util.convertLocalDateTime(board.getCreatedTime()) + "  ");
+            sb.append("</span><a href=\"/user/profile.html\" class=\"author\">");
+            sb.append(board.getWriter());
+            sb.append("</a></div><div class=\"reply\" title=\"댓글\"><i class=\"icon-reply\"></i>");
+            sb.append("<span class=\"point\">");
+            sb.append(String.valueOf(board.getIndex()));
+            sb.append("</span></div></div></div></li>");
+        }
+        return sb.toString();
+    }
 }

@@ -1,8 +1,6 @@
 package model;
 
-import db.Database;
-
-import java.util.HashMap;
+import db.UserDatabase;
 
 public class User {
 
@@ -43,7 +41,7 @@ public class User {
         String email = this.email;
         if(userId.isEmpty() || password.isEmpty()
                 || name.isEmpty() || email.isEmpty()) return false;
-        if(Database.findUserById(userId) != null) return false;
+        if(UserDatabase.findUserById(userId) != null) return false;
         return true;
     }
 }

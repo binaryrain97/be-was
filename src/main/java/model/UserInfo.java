@@ -1,6 +1,6 @@
 package model;
 
-import db.Database;
+import db.UserDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +36,7 @@ public class UserInfo {
         for(String info : list) {
             if(info.isEmpty()) return false;
         }
-        if(Database.findUserById(params.getOrDefault("userId", "")) != null)
+        if(UserDatabase.findUserById(params.getOrDefault("userId", "")) != null)
             return false;
         return true;
     }
