@@ -63,7 +63,5 @@ public class UserController {
             }
             return;
         }
-
-        LastController.route(request, response, verifiedSessionId);
     }
 }

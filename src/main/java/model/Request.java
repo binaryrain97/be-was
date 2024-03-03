@@ -17,7 +17,7 @@ public class Request {
             new HashSet<>(Arrays.asList("accept", "cookie")); // etc. User-Agent, Host
     private String method, path, version;
     private HashMap<String, String> header, param, body;
-    private String fragment, mimeType, sessionId;
+    private String mimeType, sessionId;
     private HashMap<String, String> cookie;
 
     public String getMethod() {return this.method;}
@@ -38,7 +38,7 @@ public class Request {
     private void readRequestStartLine(BufferedReader br) throws IOException {
         String line = br.readLine();
         parseStartLine(line);
-        logger.debug(line);
+        logger.debug("HTTP start line = " + line);
     }
     private void readRequestHeader(BufferedReader br) throws IOException {
         String line;
@@ -81,29 +81,25 @@ public class Request {
     }
     public void parseStartLine(String line) {
         String[] tokens = line.split(" ");
+        if(tokens.length != 3) throw new RuntimeException("HTTP start line error");
         this.method = tokens[0];
-        this.path = tokens[1];
+        parsePath(tokens[1]);
         this.version = tokens[2];
-        parsePath();
     }
-    private void parsePath() {
-        parseFragment();
-        parseParameter();
-    }
-    private void parseFragment() {
-        int indexOfDelimiter = path.indexOf("#");
-        if(indexOfDelimiter == -1) return;
-        this.fragment = path.substring(indexOfDelimiter+1);
-        path = path.substring(0, indexOfDelimiter);
-    }
-    private void parseParameter() {
+    private void parsePath(String path) {
         int indexOfDelimiter = path.indexOf("?");
-        if(indexOfDelimiter == -1) return;
+        if(indexOfDelimiter == -1) {
+            this.path = path;
+            return;
+        }
+        this.path = path.substring(0, indexOfDelimiter);
+        String queryString = path.substring(indexOfDelimiter+1);
+        parseParameter(queryString);
+    }
+    private void parseParameter(String queryString) {
         param = new HashMap<>();
-        String queryString = path.substring(indexOfDelimiter + 1);
         if(!queryString.isEmpty())
             this.param = Util.parseQueryString(queryString);
-        path = path.substring(0, indexOfDelimiter);
     }
     public void parseCookie() {
         String cookies = this.header.get("cookie");

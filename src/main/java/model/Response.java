@@ -22,6 +22,7 @@ public class Response {
 
     public Response() {}
 
+    public StatusCode getStatusCode() {return this.statusCode;}
     public void write(DataOutputStream dos) {
         handleResponseHeader(dos);
         if(this.body != null)

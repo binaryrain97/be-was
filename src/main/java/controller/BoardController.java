@@ -32,7 +32,5 @@ public class BoardController {
             }
             return;
         }
-
-        LastController.route(request, response, verifiedSessionId);
     }
 }

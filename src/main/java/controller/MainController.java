@@ -15,7 +15,5 @@ public class MainController {
             response.addHeader("Location", "/index.html");
             return;
         }
-
-        LastController.route(request, response, verifiedSessionId);
     }
 }
