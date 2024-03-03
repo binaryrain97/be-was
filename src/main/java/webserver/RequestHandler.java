@@ -4,7 +4,6 @@ import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
-import controller.FirstController;
 import model.Request;
 import model.Response;
 import org.slf4j.Logger;
@@ -25,7 +24,6 @@ public class RequestHandler implements Runnable {
 
             Request request = new Request(br);
             Response response = DispatcherServlet.dispatch(request);
-//            Response response = FirstController.route(request);
             response.write(dos);
 
         } catch (IOException e) {

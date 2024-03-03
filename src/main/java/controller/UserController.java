@@ -10,7 +10,7 @@ public class UserController {
 
         String path = request.getPath();
 
-        if(request.getPath().equals("/user/list")) {
+        if(path.equals("/user/list")) {
             if(verifiedSessionId != null) {
                 response.setStatusCode(StatusCode.FOUND);
                 response.addHeader("Location", "/user/list.html");
@@ -22,9 +22,8 @@ public class UserController {
             return;
         }
 
-        if(request.getPath().equals("/user/create")) {
-            UserInfo userInfo = new UserInfo(request.getBody());
-            User user = UserService.create(userInfo);
+        if(path.equals("/user/create")) {
+            User user = UserService.create(request.getBody());
             if (user != null) {
                 response.setStatusCode(StatusCode.FOUND);
                 response.addHeader("Location", "/index.html");

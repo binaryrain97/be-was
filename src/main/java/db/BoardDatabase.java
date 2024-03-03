@@ -2,7 +2,6 @@ package db;
 
 import com.google.common.collect.Maps;
 import model.Board;
-import model.User;
 
 import java.util.Collection;
 import java.util.Map;
@@ -13,7 +12,7 @@ public class BoardDatabase {
 
     public static Board addBoard(Board board) {
         Long index = ++boardCount;
-        board.setIndex(index);
+        board.setBoardId(index);
         boards.put(index, board);
         return board;
     }

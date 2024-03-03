@@ -2,14 +2,14 @@ package model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.Util;
-import webserver.WebServer;
+import util.Util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class Request {
     private static final Logger logger = LoggerFactory.getLogger(Request.class);
@@ -18,7 +18,6 @@ public class Request {
     private String method, path, version;
     private HashMap<String, String> header, param, body;
     private String mimeType, sessionId;
-    private HashMap<String, String> cookie;
 
     public String getMethod() {return this.method;}
     public String getVersion() {return this.version;}
@@ -28,19 +27,18 @@ public class Request {
     public HashMap<String, String> getBody() {return this.body;}
     public String getMimeType() {return this.mimeType;}
     public String getSessionId() {return this.sessionId;}
-    public HashMap<String, String> getCookie() {return this.cookie;}
 
     public Request(BufferedReader br) throws IOException {
-        readRequestStartLine(br);
-        readRequestHeader(br);
-        readRequestBody(br);
+        readStartLine(br);
+        readHeader(br);
+        readBody(br);
     }
-    private void readRequestStartLine(BufferedReader br) throws IOException {
+    private void readStartLine(BufferedReader br) throws IOException {
         String line = br.readLine();
         parseStartLine(line);
         logger.debug("HTTP start line = " + line);
     }
-    private void readRequestHeader(BufferedReader br) throws IOException {
+    private void readHeader(BufferedReader br) throws IOException {
         String line;
         this.header = new HashMap<>();
         while(true) {
@@ -54,9 +52,9 @@ public class Request {
                 logger.debug(line);
         }
         setMimeType();
-        parseCookie();
+        setSessionId();
     }
-    private void readRequestBody(BufferedReader br) throws IOException {
+    private void readBody(BufferedReader br) throws IOException {
         int contentLength = Integer.parseInt(header.getOrDefault("content-length", "0"));
         if(contentLength == 0) return;
         this.body = new HashMap<>();
@@ -101,11 +99,11 @@ public class Request {
         if(!queryString.isEmpty())
             this.param = Util.parseQueryString(queryString);
     }
-    public void parseCookie() {
+    public void setSessionId() {
         String cookies = this.header.get("cookie");
         if(cookies == null) return;
-        this.cookie = Util.parseSemicolon(cookies);
-        this.sessionId = this.cookie.get("sessionId");
+        Map<String, String> map = Util.parseSemicolon(cookies);
+        this.sessionId = map.get("sessionId");
     }
     @Override
     public String toString() {

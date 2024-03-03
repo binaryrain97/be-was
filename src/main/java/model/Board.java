@@ -3,7 +3,7 @@ package model;
 import java.time.LocalDateTime;
 
 public class Board {
-    private Long index;
+    private Long boardId;
     private String writer;
     private String title;
     private String content;
@@ -21,8 +21,8 @@ public class Board {
         this.content = content;
         this.createdTime = LocalDateTime.now();
     }
-    public void setIndex(Long index) {this.index = index;}
-    public Long getIndex() {return this.index;}
+    public void setBoardId(Long boardId) {this.boardId = boardId;}
+    public Long getBoardId() {return this.boardId;}
     public String getWriter() {return this.writer;}
     public String getTitle() {return this.title;}
     public String getContent() {return this.content;}

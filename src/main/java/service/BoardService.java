@@ -1,21 +1,16 @@
 package service;
 
 import db.BoardDatabase;
-import db.UserDatabase;
 import model.Board;
 import model.BoardInfo;
-import model.User;
-import model.UserInfo;
+
+import java.util.Map;
 
 public class BoardService {
-    public static Board create(BoardInfo boardInfo) {
-        try {
-            Board board = new Board(boardInfo);
-            Board created = BoardDatabase.addBoard(board);
-            return created;
-        }
-        catch (Exception e) {
-            return null;
-        }
+    public static Board create(Map<String, String> params) {
+        BoardInfo boardInfo = new BoardInfo(params);
+        if(!boardInfo.validateInfo()) return null;
+        Board board = new Board(boardInfo);
+        return BoardDatabase.addBoard(board);
     }
 }

@@ -1,8 +1,8 @@
 package webserver;
 
 import controller.BoardController;
-import controller.LastController;
-import controller.MainController;
+import controller.ResourceController;
+import controller.HomeController;
 import controller.UserController;
 import db.SessionStorage;
 import model.Request;
@@ -25,11 +25,10 @@ public class DispatcherServlet {
         else if(path.startsWith("/qna"))
             BoardController.route(request, response, verifiedSessionId);
         else
-            MainController.route(request, response, verifiedSessionId);
+            HomeController.route(request, response, verifiedSessionId);
 
-        if(response.getStatusCode() != null) return response;
-        LastController.route(request, response, verifiedSessionId);
-
+        if(response.getStatusCode() == null)
+            ResourceController.route(request, response, verifiedSessionId);
 
         return response;
     }

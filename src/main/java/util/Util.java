@@ -1,4 +1,4 @@
-package utils;
+package util;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Util {
 
@@ -40,8 +41,8 @@ public class Util {
         return hashMap;
     }
 
-    public static HashMap<String, String> parseSemicolon(String semicolon) {
-        HashMap<String, String> hashMap = new HashMap<>();
+    public static Map<String, String> parseSemicolon(String semicolon) {
+        Map<String, String> hashMap = new HashMap<>();
         String[] tokens = semicolon.split("; ");
         for(String token : tokens) {
             int indexOfEqual = token.indexOf("=");

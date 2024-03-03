@@ -4,15 +4,14 @@ import db.BoardDatabase;
 import db.UserDatabase;
 import db.SessionStorage;
 import model.*;
-import utils.Util;
+import util.Util;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.reflect.Member;
 import java.util.*;
 
-public class LastController {
+public class ResourceController {
 
     public static void route(Request request, Response response, String verifiedSessionId) {
         String path = request.getPath();
@@ -100,13 +99,13 @@ public class LastController {
         Collection<Board> collection = BoardDatabase.findAll();
         List<Board> boardList = new ArrayList<>(collection);
         Collections.sort(boardList, (o1, o2) -> {
-            return Math.toIntExact(o2.getIndex() - o1.getIndex());
+            return Math.toIntExact(o2.getBoardId() - o1.getBoardId());
         });
         StringBuilder sb = new StringBuilder();
         int idx = 0;
         for(Board board : boardList) {
             sb.append("<li><div class=\"wrap\"><div class=\"main\"><strong class=\"subject\"><a href=\"/qna/show.html?index=");
-            sb.append(String.valueOf(board.getIndex()));
+            sb.append(String.valueOf(board.getBoardId()));
             sb.append("\">");
             sb.append(board.getTitle());
             sb.append("</a></strong><div class=\"auth-info\"><i class=\"icon-add-comment\"></i>");
@@ -116,7 +115,7 @@ public class LastController {
             sb.append(board.getWriter());
             sb.append("</a></div><div class=\"reply\" title=\"댓글\"><i class=\"icon-reply\"></i>");
             sb.append("<span class=\"point\">");
-            sb.append(String.valueOf(board.getIndex()));
+            sb.append(String.valueOf(board.getBoardId()));
             sb.append("</span></div></div></div></li>");
         }
         return sb.toString();

@@ -7,7 +7,9 @@ import service.UserService;
 public class BoardController {
     public static void route(Request request, Response response, String verifiedSessionId) {
 
-        if(request.getPath().equals("/qna/form")) {
+        String path = request.getPath();
+
+        if(path.equals("/qna/form")) {
             if(verifiedSessionId != null) {
                 response.setStatusCode(StatusCode.FOUND);
                 response.addHeader("Location", "/qna/form.html");
@@ -19,9 +21,8 @@ public class BoardController {
             return;
         }
 
-        if(request.getPath().equals("/qna/write")) {
-            BoardInfo boardInfo = new BoardInfo(request.getBody());
-            Board board = BoardService.create(boardInfo);
+        if(path.equals("/qna/write")) {
+            Board board = BoardService.create(request.getBody());
             if (board != null) {
                 response.setStatusCode(StatusCode.FOUND);
                 response.addHeader("Location", "/index.html");

@@ -6,17 +6,16 @@ import model.Session;
 import model.User;
 import model.UserInfo;
 
+import java.util.Map;
+
 public class UserService {
 
-    public static User create(UserInfo userInfo) {
-        try {
-            User user = new User(userInfo);
-            UserDatabase.addUser(user);
-            return user;
-        }
-        catch (Exception e) {
-            return null;
-        }
+    public static User create(Map<String, String> params) {
+        UserInfo userInfo = new UserInfo(params);
+        if(!userInfo.validateInfo()) return null;
+        User user = new User(userInfo);
+        UserDatabase.addUser(user);
+        return user;
     }
 
     public static String login(UserInfo userInfo) {

@@ -4,7 +4,7 @@ import model.Request;
 import model.Response;
 import model.StatusCode;
 
-public class MainController {
+public class HomeController {
     public static void route(Request request, Response response, String verifiedSessionId){
 
 
