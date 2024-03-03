@@ -22,12 +22,11 @@ public class WebServer {
 
         try (ServerSocket listenSocket = new ServerSocket(port)) {
             logger.info("Web Application Server started {} port.", port);
-            ExecutorService threadPool = Executors.newFixedThreadPool(10);
             Socket connection;
             while ((connection = listenSocket.accept()) != null) {
-                threadPool.submit(new RequestHandler(connection));
+                Thread thread = new Thread(new RequestHandler(connection));
+                thread.start();
             }
-            threadPool.shutdown();
         }
     }
 }
