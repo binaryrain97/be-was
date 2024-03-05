@@ -15,9 +15,10 @@ public class ResourceController {
 
     public static void route(Request request, Response response, String verifiedSessionId) {
         String path = request.getPath();
+        String mimeType = request.getMimeType();
         String filePath;
 
-        if(request.getMimeType().equals("text/html"))
+        if(mimeType.equals("text/html"))
             filePath = "./src/main/resources/templates" + path;
         else
             filePath = "./src/main/resources/static" + path;
@@ -29,7 +30,7 @@ public class ResourceController {
             return;
         }
 
-        if(request.getMimeType().equals("text/html")) {
+        if(mimeType.equals("text/html")) {
             HashMap<String, String> replace = new HashMap<>();
             StringBuilder stringBuilder = new StringBuilder();
 
