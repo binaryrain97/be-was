@@ -8,4 +8,4 @@ Java Web Application Server 2023
 를 참고하여 작성되었습니다.
 
 ## 프로젝트 구조
-![무제.png](..%2F%EB%AC%B4%EC%A0%9C.png)
+![프로젝트 구조](https://github.com/binaryrain97/be-was/assets/111631775/4a609b99-3b4b-4d37-a033-d9921a2e7f4a)
